@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %} Adoption Agency {% endblock %}
+
+{% block heading %} {{pet.name}} {% endblock %}
+{% block content %}
+
+<img src="{{pet.photo_url}}" alt="">
+<p>{{pet.age}}</p>
+<p>{{pet.species}}</p>
+<a href="/{{pet.id}}/edit" class="btn btn-primary">Edit</a>
+
+{% endblock %}
