@@ -6,11 +6,15 @@
 
 {% for pet in pets %}
 <a href="/{{pet.id}}"><img src="{{pet.photo_url}}" alt=""></a>
-<span>{{pet.name}}
-  {% if pet.available %} is <b>available!</b>
+<span>
+  <h3 class="lead fw-bold fs-3">{{pet.name.upper()}}</h3>
+  {% if pet.available %}
+    is <b>available!</b>
   {% endif %}
 </span>
 {% endfor %}
-<a class="btn btn-primary" href="/add">Add a Pet</a>
+<div class="mt-3">
+  <a class="btn btn-primary" href="/add">Add a Pet</a>
+</div>
 
 {% endblock %}

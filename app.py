@@ -6,7 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from forms import AddPetForm, EditPetForm
 
-from models import db, connect_db, Pet
+from models import DEFAULT_IMAGE_URL, db, connect_db, Pet
 
 
 app = Flask(__name__)
@@ -42,9 +42,10 @@ def add_pet():
     form = AddPetForm()
 
     if form.validate_on_submit():
+
         name = form.name.data
         species = form.species.data
-        photo_url = form.photo_url.data
+        photo_url = form.photo_url.data or None
         age = form.age.data
         notes = form.notes.data
 
@@ -55,15 +56,16 @@ def add_pet():
 
         flash(f"Added {name}!")
         return redirect("/")
+
     else:
         return render_template("add_pet_form.html", form=form)
 
 
-@app.get('/<int:pet_id>')
+@app.get("/<int:pet_id>")
 def show_pet_info(pet_id):
     """Show pet information"""
 
-    pet = Pet.query.get(pet_id)
+    pet = Pet.query.get_or_404(pet_id)
 
     return render_template("show_pet_info.html", pet=pet)
 
@@ -71,7 +73,7 @@ def show_pet_info(pet_id):
 def edit_pet(pet_id):
     """Pet edit form; handle edits."""
 
-    pet = Pet.query.get(pet_id)
+    pet = Pet.query.get_or_404(pet_id)
     form = EditPetForm(obj=pet)
 
     if form.validate_on_submit():
@@ -79,10 +81,9 @@ def edit_pet(pet_id):
         notes = form.notes.data
         available = form.available.data
 
-
-        pet.photo_url=photo_url
-        pet.notes=notes
-        pet.available=available
+        pet.photo_url = photo_url or DEFAULT_IMAGE_URL
+        pet.notes = notes
+        pet.available = available
 
         db.session.add(pet)
         db.session.commit()

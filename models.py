@@ -4,7 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-DEFAULT_IMAGE_URL = "https://media.npr.org/assets/img/2021/04/27/prancer_wide-db59609b5bd96c9e56e4dfe32d198461197880c2.jpg?s=1400"
+DEFAULT_IMAGE_URL = "https://i.insider.com/5c005d9bac00e20fe169f725?width=700"
+
+
 def connect_db(app):
     """Connect this database to provided Flask app.
 
@@ -16,7 +18,7 @@ def connect_db(app):
 
 
 class Pet(db.Model):
-    """Create Pet class and models table"""
+    """Create Pet class and pets table"""
 
     __tablename__ = "pets"
 
@@ -27,18 +29,18 @@ class Pet(db.Model):
                      nullable=False
                      )
     species = db.Column(db.String(50),
-                     nullable=False
-                     )
+                        nullable=False
+                        )
     photo_url = db.Column(db.String,
-                    nullable=False,
-                    server_default=DEFAULT_IMAGE_URL)
+                          nullable=False,
+                          server_default=DEFAULT_IMAGE_URL)
     age = db.Column(db.String(6),
-                     nullable=False
-                     )
+                    nullable=False
+                    )
     notes = db.Column(db.String,
-                     nullable=True
-                     )
+                      nullable=False,
+                      default=""
+                      )
     available = db.Column(db.Boolean,
-                     default = True
-                     )
-
+                          default=True
+                          )
