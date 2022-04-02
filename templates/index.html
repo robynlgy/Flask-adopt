@@ -17,4 +17,9 @@
   <a class="btn btn-primary" href="/add">Add a Pet</a>
 </div>
 
+<hr>
+<h1> Pet Finder </h1>
+
+<h2>{{random_pet['animals'][0]['name']}}</h2>
+<img src="{{random_pet['animals'][1]['photos'][0]['medium']}}">
 {% endblock %}
