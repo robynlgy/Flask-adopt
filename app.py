@@ -1,12 +1,17 @@
 """Flask app for adopt app."""
+import requests
 
-from flask import Flask, render_template, redirect, request, flash
+from flask import Flask, render_template, redirect, flash
 
 from flask_debugtoolbar import DebugToolbarExtension
 
 from forms import AddPetForm, EditPetForm
 
 from models import DEFAULT_IMAGE_URL, db, connect_db, Pet
+
+from pet_finder_app import get_random_pet
+
+API_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhc1NDaWdqWnc2TTFMSU9WZEg2RWRtUkFJQWZ1VFZmSVFxN1M2dURuRzlXN1drU0VweSIsImp0aSI6IjFiMGMzMGNiNDliMWUzZWQ3MTBlM2JiOTUzYmM5OWE5ZjEwYjRmYTQwZDlhMjhlYTM1NjkxNzhkNTJmNThjNjMwMGZhNjA0NTc4ZmE3YzU2IiwiaWF0IjoxNjQ4ODU4MjAzLCJuYmYiOjE2NDg4NTgyMDMsImV4cCI6MTY0ODg2MTgwMywic3ViIjoiIiwic2NvcGVzIjpbXX0.SR0CXCkAKPclEAkPce0zEeJWk58q9A0mz9mRmy02GQc_5nCPDgH1uqhNM8WZjysrIrgIwipgw4DXnsoq8mQRuX_xGU_zqpLcjHJ99kpr3MpRv0-cnQ2ujCEGf0GwprG6lNPmIuwW3NRRAPtWtFjVfxzyd2b8ibbpABKYUlOvlyiJjujTLwGvzxlTIVzuTPZjsBcqbVHyj56HnpjWMC_u6O3XbjmPrBIuzS5JlOThpl3aO0ITVqWqrHBmN4HXuzBIQKrOkYVZLo_JocV9KbVYrTyuatNL6djlW6SKn4lXI-c6EXgdmnxkfKXp7gckYOiU5ncDX2cnde16APF6uORXAA'
 
 
 app = Flask(__name__)
@@ -32,8 +37,10 @@ def get_homepage():
     """Shows homepage with list of pets"""
 
     pets = Pet.query.all()
+    random_pet = get_random_pet()
+    # breakpoint()
 
-    return render_template("index.html", pets = pets)
+    return render_template("index.html", pets = pets , random_pet = random_pet )
 
 @app.route("/add", methods=["GET", "POST"])
 def add_pet():
